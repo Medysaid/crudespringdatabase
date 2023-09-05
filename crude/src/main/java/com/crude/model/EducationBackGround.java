@@ -13,7 +13,7 @@ public class EducationBackGround {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long educationId;
     private String institutionName; // Name of the educational institution
-    private String degree;          // Degree obtained (e.g., Bachelor's, Master's)
+    private String educationLevel;          // Degree obtained (e.g., Bachelor's, Master's)
     private String major;           // Field of study or major
     private LocalDate startDate;         // Start date of education
     private LocalDate endDate;           // End date of education or expected graduation date
