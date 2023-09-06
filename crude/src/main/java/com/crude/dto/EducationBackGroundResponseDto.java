@@ -1,13 +1,12 @@
 package com.crude.dto;
 
-import com.crude.model.StaffPersonalDetails;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
-public class EducationBackGroundRequestDto {
+public class EducationBackGroundResponseDto {
+    private Long educationId;
     private String institutionName; // Name of the educational institution
     private String degree;          // Degree obtained (e.g., Bachelor's, Master's)
     private String major;           // Field of study or major
