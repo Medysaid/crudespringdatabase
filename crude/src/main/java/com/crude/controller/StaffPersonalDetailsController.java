@@ -12,25 +12,28 @@ import org.springframework.web.bind.annotation.*;
 @Data
 public class StaffPersonalDetailsController {
     private final StaffPersonalDetailsService staffPersonalDetailsService;
-    @RequestMapping(value = "/",method = RequestMethod.GET)
-    public ResponseEntity getAll(){
 
+    // GET endpoint to retrieve all staff personal details
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity getAll() {
         return staffPersonalDetailsService.getAll();
     }
-    @RequestMapping(value = "/{id}",method = RequestMethod.GET)
-    public ResponseEntity getAllById(@PathVariable("id") Long id){
 
+    // GET endpoint to retrieve staff personal details by ID
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity getAllById(@PathVariable("id") Long id) {
         return staffPersonalDetailsService.getById(id);
     }
-    @RequestMapping(value = "/",method = RequestMethod.POST)
-    public ResponseEntity create(@RequestBody StaffPersonalDetailsRequestDto staffPersonalDetailsRequestDto){
 
+    // POST endpoint to create a new staff personal details record
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public ResponseEntity create(@RequestBody StaffPersonalDetailsRequestDto staffPersonalDetailsRequestDto) {
         return staffPersonalDetailsService.create(staffPersonalDetailsRequestDto);
     }
 
-    @RequestMapping(value = "/{id}",method = RequestMethod.PUT)
-    public ResponseEntity updates(@PathVariable("id") Long id,@RequestBody StaffPersonalDetailsRequestDto staffPersonalDetailsRequestDto){
-
-        return staffPersonalDetailsService.Update(id,staffPersonalDetailsRequestDto);
+    // PUT endpoint to update an existing staff personal details record
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity updates(@PathVariable("id") Long id, @RequestBody StaffPersonalDetailsRequestDto staffPersonalDetailsRequestDto) {
+        return staffPersonalDetailsService.update(id, staffPersonalDetailsRequestDto);
     }
 }

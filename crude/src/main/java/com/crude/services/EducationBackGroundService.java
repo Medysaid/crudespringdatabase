@@ -18,52 +18,82 @@ import java.util.Optional;
 
 @Data
 @Service
-public class EducationBackGroundService  {
+public class EducationBackGroundService {
     private final EducationBackGroundRepository educationRepository;
     private final ModelMapper modelMapper;
 
-    public ResponseEntity<Boolean> create(EducationBackGroundRequestDto edurqt){
-        EducationBackGround educationBackGround = modelMapper.map(edurqt,EducationBackGround.class);
+    // Create method
+    public ResponseEntity<Boolean> create(EducationBackGroundRequestDto edurqt) {
+        // Map the DTO to the entity
+        EducationBackGround educationBackGround = modelMapper.map(edurqt, EducationBackGround.class);
+
+        // Create a new StaffPersonalDetails instance and associate it with the educationBackGround
         StaffPersonalDetails staffPersonalDetails = new StaffPersonalDetails();
         staffPersonalDetails.setId(educationBackGround.getEducationId());
         educationBackGround.setStaffPersonalDetails(staffPersonalDetails);
+
+        // Save the entity to the repository
         educationRepository.save(educationBackGround);
+
+        // Return a successful response
         return ResponseEntity.ok(Boolean.TRUE);
     }
 
-    public ResponseEntity<Boolean> Update(Long id,EducationBackGroundRequestDto edurqt){
+    // Update method
+    public ResponseEntity<Boolean> update(Long id, EducationBackGroundRequestDto edurqt) {
+        // Check if the education record exists in the repository
         Optional<EducationBackGround> getById = educationRepository.findById(id);
-        if(!getById.isPresent()){
+        if (!getById.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        EducationBackGround educationBackGround = modelMapper.map(edurqt,EducationBackGround.class);
+
+        // Map the DTO to the entity and set the ID
+        EducationBackGround educationBackGround = modelMapper.map(edurqt, EducationBackGround.class);
         educationBackGround.setEducationId(id);
+
+        // Create a new StaffPersonalDetails instance and associate it with the educationBackGround
         StaffPersonalDetails staffPersonalDetails = new StaffPersonalDetails();
         staffPersonalDetails.setId(educationBackGround.getEducationId());
         educationBackGround.setStaffPersonalDetails(staffPersonalDetails);
+
+        // Save the updated entity to the repository
         educationRepository.save(educationBackGround);
+
+        // Return a successful response
         return ResponseEntity.ok(Boolean.TRUE);
     }
-    public ResponseEntity<EducationBackGroundResponseDto> getById(Long id){
+
+    // Get by ID method
+    public ResponseEntity<EducationBackGroundResponseDto> getById(Long id) {
+        // Check if the education record exists in the repository
         Optional<EducationBackGround> getById = educationRepository.findById(id);
-        if(!getById.isPresent()){
+        if (!getById.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        EducationBackGroundResponseDto educationBackGroundResponseDto = modelMapper.map(getById.get(),EducationBackGroundResponseDto.class);
+
+        // Map the entity to a DTO and set the ID
+        EducationBackGroundResponseDto educationBackGroundResponseDto = modelMapper.map(getById.get(), EducationBackGroundResponseDto.class);
         educationBackGroundResponseDto.setId(getById.get().getStaffPersonalDetails().getId());
-//        educationRepository.save(staffPersonalDetails);
+
+        // Return the DTO in the response
         return ResponseEntity.ok(educationBackGroundResponseDto);
     }
-    public ResponseEntity<List<EducationBackGroundResponseDto>> getAll(){
-        List<EducationBackGroundResponseDto> list = new ArrayList<>();
+
+    // Get all method
+    public ResponseEntity<List<EducationBackGroundResponseDto>> getAll() {
+        // Retrieve all education records from the repository
         List<EducationBackGround> educationBackGrounds = educationRepository.findAll();
+        List<EducationBackGroundResponseDto> list = new ArrayList<>();
         EducationBackGroundResponseDto educationBackGroundResponseDto = null;
-        for (EducationBackGround educationBackGround :educationBackGrounds){
-            educationBackGroundResponseDto=modelMapper.map(educationBackGround, EducationBackGroundResponseDto.class);
+
+        // Map each entity to a DTO and set the ID
+        for (EducationBackGround educationBackGround : educationBackGrounds) {
+            educationBackGroundResponseDto = modelMapper.map(educationBackGround, EducationBackGroundResponseDto.class);
             educationBackGroundResponseDto.setId(educationBackGround.getStaffPersonalDetails().getId());
             list.add(educationBackGroundResponseDto);
         }
-//        educationRepository.save(staffPersonalDetails);
+
+        // Return the list of DTOs in the response
         return ResponseEntity.ok(list);
     }
 }
